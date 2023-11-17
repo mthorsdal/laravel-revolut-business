@@ -4,6 +4,7 @@ namespace tbclla\Revolut\Console\Commands;
 
 use Exception;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Illuminate\Console\Command;
 use tbclla\Revolut\Auth\ClientAssertion;
 use tbclla\Revolut\Exceptions\ConfigurationException;
@@ -40,7 +41,7 @@ class JWTCommand extends Command
         // optionally, verify the key
         $key = $this->checkPublicKey($this->option('public') ?? null);
 
-        $decoded = JWT::decode($jwt, $key, [ClientAssertion::ALGORYTHM]);
+        $decoded = JWT::decode($jwt, new Key($key, ClientAssertion::ALGORYTHM));
 
         $headers = ['parameter', 'value'];
         $data = [

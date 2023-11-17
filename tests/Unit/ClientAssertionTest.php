@@ -3,6 +3,7 @@
 namespace tbclla\Revolut\Tests;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use tbclla\Revolut\Auth\ClientAssertion;
 use tbclla\Revolut\Exceptions\ConfigurationException;
 
@@ -15,7 +16,7 @@ class ClientAssertionTest extends TestCase
         $publicKey = file_get_contents(env('REVOLUT_PUBLIC_KEY'));
 
         $assertion = new ClientAssertion('abc123', $privateKey, 'http://example.test');
-        $decoded  = (array) JWT::decode($assertion->build(), $publicKey, [ClientAssertion::ALGORYTHM]);
+        $decoded  = (array) JWT::decode($assertion->build(), new Key($publicKey, ClientAssertion::ALGORYTHM));
 
         $this->assertEquals('abc123', $decoded['sub']);
         $this->assertEquals('example.test', $decoded['iss']);
@@ -26,7 +27,7 @@ class ClientAssertionTest extends TestCase
     {
         $this->expectException(ConfigurationException::class);
 
-        $assertion = new ClientAssertion('abc123', '', 'http://example.test');
+        $assertion = new ClientAssertion('abc123', 'asd', 'http://example.test');
         $assertion->build();
     }
 

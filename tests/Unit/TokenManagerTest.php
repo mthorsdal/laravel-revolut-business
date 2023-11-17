@@ -11,7 +11,7 @@ use tbclla\Revolut\Auth\TokenManager;
 use tbclla\Revolut\Interfaces\MakesHttpRequests;
 use tbclla\Revolut\Interfaces\TokenRepository;
 
-class managerTest extends TestCase
+class TokenManagerTest extends TestCase
 {
     /**
      * Setup the test environment.
